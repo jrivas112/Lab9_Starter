@@ -177,7 +177,7 @@
         }
       } catch (err) {
         if (err instanceof Error) {
-          alert("Error: " + err.message);
+          console.error("Error: " + err.message);
         } else {
           throw err; // rethrow (*)
         }
