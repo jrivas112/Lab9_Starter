@@ -1,136 +1,207 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.trackjs.com/agent/v3/latest/t.js"></script>
+    <script>
+      window.TrackJS &&
+        TrackJS.install({
+          token: "c0bab0ce72dd430eb7dd9b4341296bde",
+          // for more configuration options, see https://docs.trackjs.com
+        });
+    </script>
+    <title>Lab 9</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lab 9</title>
-
-  <style>
-    button {
-      margin: 3px;
-    }
-
-    button:hover {
-      cursor: pointer;
-    }
-
-    #first-num,
-    #second-num {
-      width: 60px;
-    }
-
-    output {
-      border: 1px solid gray;
-      display: block;
-      height: 18px;
-      margin-top: 5px;
-      padding: 5px;
-      width: 240px;
-    }
-
-    main {
-      width: 800px;
-    }
-
-    #error-btns {
-      column-gap: 5px;
-      display: flex;
-      flex-wrap: wrap;
-      margin-top: 30px;
-      row-gap: 5px;
-    }
-
-    #error-btns>* {
-      padding: 8px 2px;
-      width: 122px;
-    }
-  </style>
-</head>
-
-<body>
-  <main>
-    <form>
-      <fieldset>
-        <legend>Error Calculator</legend>
-        <input name="first-num" id="first-num" />
-        <select name="operator" id="operator">
-          <option>+</option>
-          <option>-</option>
-          <option>*</option>
-          <option>/</option>
-        </select>
-        <input name="second-num" id="second-num" />
-        <button id="calculate">Calculate</button>
-        <br />
-        <output></output>
-      </fieldset>
-    </form>
-
-    <section id="error-btns">
-      <button id="console-log">Console Log</button>
-      <button id="console-error">Console Error</button>
-      <button id="console-count">Console Count</button>
-      <button id="console-warn">Console Warn</button>
-      <button id="console-assert">Console Assert</button>
-      <button id="console-clear">Console Clear</button>
-      <button id="console-dir">Console Dir</button>
-      <button id="console-dirxml">Console dirxml</button>
-      <button id="console-group-start">Console Group Start</button>
-      <button id="console-group-end">Console Group End</button>
-      <button id="console-table">Console Table</button>
-      <button id="start-timer">Start Timer</button>
-      <button id="end-timer">End Timer</button>
-      <button id="console-trace">Console Trace</button>
-      <button>Trigger a Global Error</button>
-    </section>
-  </main>
-
-  <script>
-    let form = document.querySelector('form');
-    form.addEventListener('submit', e => {
-      e.preventDefault();
-      let output = document.querySelector('output');
-      let firstNum = document.querySelector('#first-num').value;
-      let secondNum = document.querySelector('#second-num').value;
-      let operator = document.querySelector('#operator').value;
-      output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
-    });
-
-    let errorBtns = Array.from(document.querySelectorAll('#error-btns > button'));
-
-    // Adding functionality to buttons
-    document.getElementById('console-log').addEventListener('click', () => console.log('This is a console log message'));
-    document.getElementById('console-error').addEventListener('click', () => console.error('This is a console error message'));
-    document.getElementById('console-count').addEventListener('click', () => console.count('Count'));
-    document.getElementById('console-warn').addEventListener('click', () => console.warn('This is a console warning message'));
-    document.getElementById('console-assert').addEventListener('click', () => console.assert(false, 'This is a console assert message'));
-    document.getElementById('console-clear').addEventListener('click', () => console.clear());
-    document.getElementById('console-dir').addEventListener('click', (e) => console.dir(e.target));
-    document.getElementById('console-dirxml').addEventListener('click', (e) => console.dirxml(e.target));
-    document.getElementById('console-group-start').addEventListener('click', () => console.group('console.group'));
-    document.getElementById('console-group-end').addEventListener('click', () => console.groupEnd());
-    document.getElementById('console-table').addEventListener('click', () => console.table([{ name: 'Alice', age: 30 }, { name: 'Bob', age: 25 }]));
-    document.getElementById('start-timer').addEventListener('click', () => console.time('Timer'));
-    document.getElementById('end-timer').addEventListener('click', () => console.timeEnd('Timer'));
-    document.getElementById('console-trace').addEventListener('click', () => console.trace());
-
-    try{
-      let test = document.getElementById("test-button");
-      if(test==null){
-        throw new Error("button does not exist");
+    <style>
+      button {
+        margin: 3px;
       }
-    }catch(err){
-      if (err instanceof Error) {
-        alert( "Error: " + err.message );
-     } else {
-        throw err; // rethrow (*)
-     }
-    }finally{
-      console.log("finally!");
-    }
-  </script>
-</body>
 
+      button:hover {
+        cursor: pointer;
+      }
+
+      #first-num,
+      #second-num {
+        width: 60px;
+      }
+
+      output {
+        border: 1px solid gray;
+        display: block;
+        height: 18px;
+        margin-top: 5px;
+        padding: 5px;
+        width: 240px;
+      }
+
+      main {
+        width: 800px;
+      }
+
+      #error-btns {
+        column-gap: 5px;
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        row-gap: 5px;
+      }
+
+      #error-btns > * {
+        padding: 8px 2px;
+        width: 122px;
+      }
+    </style>
+  </head>
+
+  <body>
+    <main>
+      <form>
+        <fieldset>
+          <legend>Error Calculator</legend>
+          <input name="first-num" id="first-num" />
+          <select name="operator" id="operator">
+            <option>+</option>
+            <option>-</option>
+            <option>*</option>
+            <option>/</option>
+          </select>
+          <input name="second-num" id="second-num" />
+          <button id="calculate">Calculate</button>
+          <br />
+          <output></output>
+        </fieldset>
+      </form>
+
+      <section id="error-btns">
+        <button id="console-log">Console Log</button>
+        <button id="console-error">Console Error</button>
+        <button id="console-count">Console Count</button>
+        <button id="console-warn">Console Warn</button>
+        <button id="console-assert">Console Assert</button>
+        <button id="console-clear">Console Clear</button>
+        <button id="console-dir">Console Dir</button>
+        <button id="console-dirxml">Console dirxml</button>
+        <button id="console-group-start">Console Group Start</button>
+        <button id="console-group-end">Console Group End</button>
+        <button id="console-table">Console Table</button>
+        <button id="start-timer">Start Timer</button>
+        <button id="end-timer">End Timer</button>
+        <button id="console-trace">Console Trace</button>
+        <button>Trigger a Global Error</button>
+      </section>
+    </main>
+    <script>
+      let form = document.querySelector("form");
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let output = document.querySelector("output");
+        let firstNum = document.querySelector("#first-num").value;
+        let secondNum = document.querySelector("#second-num").value;
+        let operator = document.querySelector("#operator").value;
+        output.innerHTML = eval(`${firstNum} ${operator} ${secondNum}`);
+      });
+
+      let errorBtns = Array.from(
+        document.querySelectorAll("#error-btns > button")
+      );
+
+      // Adding functionality to buttons
+      document
+        .getElementById("console-log")
+        .addEventListener("click", () =>
+          console.log("This is a console log message")
+        );
+      document
+        .getElementById("console-error")
+        .addEventListener("click", () =>
+          console.error("This is a console error message")
+        );
+      document
+        .getElementById("console-count")
+        .addEventListener("click", () => console.count("Count"));
+      document
+        .getElementById("console-warn")
+        .addEventListener("click", () =>
+          console.warn("This is a console warning message")
+        );
+      document
+        .getElementById("console-assert")
+        .addEventListener("click", () =>
+          console.assert(false, "This is a console assert message")
+        );
+      document
+        .getElementById("console-clear")
+        .addEventListener("click", () => console.clear());
+      document
+        .getElementById("console-dir")
+        .addEventListener("click", (e) => console.dir(e.target));
+      document
+        .getElementById("console-dirxml")
+        .addEventListener("click", (e) => console.dirxml(e.target));
+      document
+        .getElementById("console-group-start")
+        .addEventListener("click", () => console.group("console.group"));
+      document
+        .getElementById("console-group-end")
+        .addEventListener("click", () => console.groupEnd());
+      document.getElementById("console-table").addEventListener("click", () =>
+        console.table([
+          { name: "Alice", age: 30 },
+          { name: "Bob", age: 25 },
+        ])
+      );
+      document
+        .getElementById("start-timer")
+        .addEventListener("click", () => console.time("Timer"));
+      document
+        .getElementById("end-timer")
+        .addEventListener("click", () => console.timeEnd("Timer"));
+      document
+        .getElementById("console-trace")
+        .addEventListener("click", () => console.trace());
+
+      class ValidationError extends Error {
+        constructor(message) {
+          super(message);
+          this.name = "ValidationError";
+        }
+      }
+
+      try {
+        let test = document.getElementById("test-button");
+        if (test == null) {
+          throw new Error("button does not exist");
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          alert("Error: " + err.message);
+        } else {
+          throw err; // rethrow (*)
+        }
+      } finally {
+        console.log("finally!");
+      }
+      function validateUser(user) {
+        if (!user.name) {
+          throw new ValidationError("No name provided");
+        }
+        if (!user.age) {
+          throw new ValidationError("No age provided");
+        }
+      }
+
+      try {
+        validateUser({ age: 25 });
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          console.error("Validation error:", err.message);
+        } else {
+          throw err; // Re-throw unknown errors
+        }
+      }
+    </script>
+  </body>
 </html>
