@@ -90,7 +90,7 @@
         <button id="start-timer">Start Timer</button>
         <button id="end-timer">End Timer</button>
         <button id="console-trace">Console Trace</button>
-        <button>Trigger a Global Error</button>
+        <button id="trigger-error">Trigger a Global Error</button>
       </section>
     </main>
     <script>
@@ -130,7 +130,7 @@
       document
         .getElementById("console-assert")
         .addEventListener("click", () =>
-          console.assert(false,"This is a console assert message")
+          console.assert(false, "This is a console assert message")
         );
       document
         .getElementById("console-clear")
@@ -162,7 +162,15 @@
       document
         .getElementById("console-trace")
         .addEventListener("click", () => console.trace());
+      document.getElementById("trigger-error").addEventListener("click", () => {
+        throw new Error("This is a global error");
+      });
 
+      window.onerror = function (message, source, lineno, colno, error) {
+        console.error("Caught global error:", message);
+        return true;
+      };
+      
       class ValidationError extends Error {
         constructor(message) {
           super(message);
